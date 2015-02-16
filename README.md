@@ -1,4 +1,4 @@
-# holman does dotfiles
+# Copied from holman does dotfiles
 
 ## dotfiles
 
