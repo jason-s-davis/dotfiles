@@ -1,4 +1,258 @@
-syntax on
 
-" Wrap gitcommit file types at the appropriate length
-filetype indent plugin on
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  General
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" sane defaults
+set nocompatible
+
+" Sets how many lines of history VIM has to remember
+set history=700
+
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader = ","
+let g:mapleader = ","
+
+" Fast saving
+nmap <leader>w :w!<cr>
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  VIM user interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Better command-line completion
+set wildmenu
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+
+"Always show current position
+set ruler
+
+" Show partial commands in the last line of the screen
+set showcmd
+
+" Use visual bell instead of beeping when doing something wrong
+set visualbell
+
+" Always display the status line, even if only one window is displayed
+set laststatus=2
+
+" allow for switcing from unsaved buffers in same window
+set hidden
+
+" faster rendering
+set ttyfast
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" For regular expressions turn magic on
+set magic
+
+" Show matching brackets when text indicator is over them
+set showmatch
+
+" How many tenths of a second to blink when matching brackets
+set mat=2
+
+" Instead of failing a command because of unsaved changes, instead raise a
+" dialogue asking if you wish to save changed files.
+set confirm
+
+" Enable use of the mouse for all modes
+set mouse=a
+
+" Set the command window height to 2 lines, to avoid many cases of having to
+" "press <Enter> to continue"
+set cmdheight=2
+
+" Allow backspacing over autoindent, line breaks and start of insert action
+" basically how anyone who has used a word processor expects
+set backspace=indent,eol,start
+set whichwrap+=<,>,h,l
+
+
+""""""""""""""""""""""""""""""
+"  Status line
+""""""""""""""""""""""""""""""
+
+" Always show the status line
+set laststatus=2
+
+" Format the status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \
+Line:\ %l
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Colors and Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+" Enable syntax highlighting
+syntax enable
+
+" Color scheme setup
+colorscheme desert
+set background=dark
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Files, backups and undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Turn backup off, since most stuff is in SVN, git etc anyway...
+set nobackup
+set nowb
+set noswapfile
+
+" When opening a new line and no filetype-specific indenting is enabled, keep
+" the same indent as the line you're currently on. Useful for READMEs, etc.
+set autoindent
+
+" TAB stuff
+set smarttab " tab respects tabstop
+set expandtab " use spaces instead of tabs?
+set tabstop=4 " visible width of tabs
+set softtabstop=4 " tabs are 4 characters wide
+set shiftwidth=4 " >> and << keys move this many spaces
+set shiftround " round indent to a multiple of shiftwidth
+
+
+
+" use system clipboard
+set clipboard=unnamed
+
+
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Search
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Ignore case when searching
+set ignorecase
+
+" When searching try to be smart about cases 
+set smartcase
+
+" hilight searches
+set hlsearch
+
+" Use case insensitive search, except when using capital letters
+set ignorecase
+set smartcase
+
+" => visual mode related
+" visual mode pressing * or # searches for the current selection
+" very useful idea by Michael Naumann
+vnoremap <silent> * :call VisualSelection('f')<CR>
+vnoremap <silent> # :call VisualSelection('b')<CR>
+
+" Map <Space> to / (search) 
+map <space> /
+
+" Ctrl-<Space> to ? (backwards search)
+" I dont usually use this function
+" map <c-space> ?
+
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around, tabs, windows and buffers
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Treat long lines as break lines (useful when moving around in them)
+map j gj
+map k gk
+
+
+" vim way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
+
+" Remember info about open buffers on close
+set viminfo^=%
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Editing and Helper Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.coffee :call DeleteTrailingWS()
+
+" Don't close window, when deleting a buffer
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
+
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
+
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
+
+    if buflisted(l:currentBufNum)
+        execute("bdelete!
+        ".l:currentBufNum)
+    endif
+endfunction
+
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    en
+    return ''
+endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+source ~/.dotfiles/vim/plugins.vim
