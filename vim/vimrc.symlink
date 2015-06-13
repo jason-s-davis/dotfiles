@@ -1,10 +1,10 @@
 
+"  Plugins
+source ~/.dotfiles/vim/plugins.vim
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "  General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" sane defaults
-set nocompatible
 
 " Sets how many lines of history VIM has to remember
 set history=700
@@ -24,6 +24,15 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"  Fat finger fixes
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" example
+" :command <AliasName> <string of command to be aliased>
+ca WQ wq
+ca Wq wq
+ca W w
+ca Q q
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "  VIM user interface
@@ -248,10 +257,3 @@ function! HasPaste()
     en
     return ''
 endfunction
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"  Plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-source ~/.dotfiles/vim/plugins.vim
