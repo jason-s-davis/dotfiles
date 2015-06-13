@@ -1,0 +1,12 @@
+#!/bin/bash
+# Automatically adds branch name to every commit message
+# Succeed on all merge messages, as evidenced by MERGE_MSG existing
+[ -f $GIT_DIR/MERGE_MSG ] && exit 0
+# Get branch name and description
+NAME=$(git symbolic-ref --short HEAD)
+# Don't apply this logic if we are in a 'detached head' state (rebasing, read-only history, etc)
+if [ "$NAME" != "(no branch)" ]; then
+    echo -n "[$NAME] " > "$1.msg"
+    cat "$1" >> "$1.msg"
+    cat "$1.msg" > "$1"
+fi
