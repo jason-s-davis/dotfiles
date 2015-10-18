@@ -1,9 +1,3 @@
-# A copy of holman does dotfiles
-
-These are my dotfiles.  There are many like these but these are mine.
-My dotfiles are my best friend. They are my life. I must master Them as I must master my life.
-
-## install
 
 Run this:
 

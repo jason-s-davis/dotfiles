@@ -24,15 +24,26 @@ let g:mapleader = ","
 " Fast saving
 nmap <leader>w :w!<cr>
 
+" CtrlP set to current dir not git dir
+let g:ctrlp_working_path_mode = 'c'
+
+" CtrlP set to nearest git dir
+" let g:ctrlp_working_path_mode = 'ra'
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "  Fat finger fixes
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" example
+" command alias example
 " :command <AliasName> <string of command to be aliased>
 ca WQ wq
 ca Wq wq
 ca W w
 ca Q q
+
+" abbreviation example
+" abbr bleh blah
+abbr teh the
+abbr fucntion function
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "  VIM user interface
@@ -159,7 +170,7 @@ set clipboard=unnamed
 " Ignore case when searching
 set ignorecase
 
-" When searching try to be smart about cases 
+" When searching try to be smart about cases
 set smartcase
 
 " hilight searches
@@ -175,7 +186,7 @@ set smartcase
 vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
 
-" Map <Space> to / (search) 
+" Map <Space> to / (search)
 map <space> /
 
 " Ctrl-<Space> to ? (backwards search)

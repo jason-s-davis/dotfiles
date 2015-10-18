@@ -16,7 +16,7 @@ call vundle#rc()
 " 'user/repository' format
 Plugin 'gmarik/vundle'
 
-" We could also add repositories with a ".git" extension
+" We could also add repositories with a '.git' extension
 "Plugin 'scrooloose/nerdtree.git'
 
 " To get plugins from Vim Scripts, you can reference the plugin
@@ -25,10 +25,18 @@ Plugin 'gmarik/vundle'
 
 
 Plugin 'scrooloose/nerdtree.git'
+Plugin 'kien/ctrlp.vim'
 Plugin 'jeetsukumaran/vim-buffergator'
 Plugin 'mattn/emmet-vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'editorconfig/editorconfig-vim'
+
+
+" CSS stuff
 Plugin 'skammer/vim-css-color'
 Plugin 'hail2u/vim-css3-syntax'
-Plugin 'groenewege/vim-less'
+Plugin 'JulesWang/css.vim'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'altercation/vim-colors-solarized'
+Plugin 'groenewege/vim-less'
+
+nnoremap <Leader>m :w <BAR> !lessc % > %:t:r.css<CR><space>
