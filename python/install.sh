@@ -1,1 +1,2 @@
-easy_install SpoofMAC
+apt-get install -y python-setuptools
+easy_install pip
