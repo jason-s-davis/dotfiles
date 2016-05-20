@@ -1,0 +1,252 @@
+""""""""""""""""""""""""""""""
+" Vundle plugins
+""""""""""""""""""""""""""""""
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+    Plugin 'gmarik/Vundle.vim'
+    Plugin 'gmarik/vundle'
+    Plugin 'vim-airline/vim-airline'
+    Plugin 'vim-airline/vim-airline-themes'
+    Plugin 'flazz/vim-colorschemes'
+call vundle#end()
+
+""""""""""""""""""""""""""""""
+" General
+""""""""""""""""""""""""""""""
+
+" vim history
+set history=500
+
+" enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" set auto read when a file is changed externally
+set autoread
+
+" set map leader for key combos
+let mapleader = ","
+let g:mapleader = ","
+
+" use system clipboard for copy pasta
+set clipboard=unnamed
+
+
+""""""""""""""""""""""""""""""
+" UI
+""""""""""""""""""""""""""""""
+
+" set lines to show above and below cursor
+set so=7
+
+" just in case we open non english files
+let $LANG='en'
+set langmenu=en
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+
+" turn on wildmenu
+set wildmenu
+
+" ignore compiled and system files
+set wildignore=*.o,*.~,*.pyc
+if has("win16") || has("win32")
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
+endif
+
+" show current position
+set ruler
+
+" set command bar height
+set cmdheight=2
+
+" hide abandoned buffer
+set hid
+
+" backspace act like backspace
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" ignore case during search
+set ignorecase
+
+" be smart about case in search
+set smartcase
+
+" highlight search results
+set hlsearch
+
+" make search incremental (like in browsers)
+set incsearch
+
+" don't redraw while executing macros (better performance)
+set lazyredraw
+
+" regular expressions need magic
+set magic
+
+" show matching bracket to brackets highlighted by cursor
+set showmatch
+
+" how fast to blink matched bracket (tenths of a second)
+set mat=2
+
+" remove error sounds
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+" add extra left margin
+set foldcolumn=1
+
+
+""""""""""""""""""""""""""""""
+" Fonts / Colors
+""""""""""""""""""""""""""""""
+
+" syntax highlighting
+syntax enable
+
+try
+    colorscheme desert
+catch
+endtry
+
+set background=dark
+
+" tty colors
+if &t_Co == 8
+    " color def
+endif
+
+" extra stuff when in gui mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+" set utf8 as standard encoding
+set encoding=utf8
+
+" unix filetype standard
+set ffs=unix,dos,mac
+
+
+""""""""""""""""""""""""""""""
+" Files, backups, and undo
+""""""""""""""""""""""""""""""
+set nobackup
+set nowb
+set noswapfile
+
+" set persistent undo
+try
+    set undodir=~/.vim/temp_dir/undodir
+    set undofile
+catch
+endtry
+
+""""""""""""""""""""""""""""""
+" Text , tab , indent stuff
+""""""""""""""""""""""""""""""
+
+set expandtab " use spaces instead of tabs
+set smarttab " smart tabs
+
+" 1 tab = 4 spaces // let editorconfig override where necessary
+set shiftwidth=4
+set tabstop=4
+
+" linebreak on 500 chars
+set lbr
+set tw=500
+
+set ai " auto indent
+set si " smart indent
+set wrap " wrap lines
+
+
+""""""""""""""""""""""""""""""
+" visual mode stuff
+""""""""""""""""""""""""""""""
+
+" * or # in visual mode searches for current selection or word under cursor
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+
+
+""""""""""""""""""""""""""""""
+" moving in tabs and buffers
+""""""""""""""""""""""""""""""
+
+" treat long lines as break lines // a tad annoying in macros
+map j gj
+map k gk
+
+" use space as search and ctrl-space as reverse search
+map <space> /
+map <c-space> ?
+
+" disaqble highlight when <leader><cr> is pressed
+map <silent> <leader><cr>  :noh<cr>
+
+" smart window movements
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" open new tab with current buffer's path
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+" return to last edit position when opening files
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+""""""""""""""""""""""""""""""
+" status line
+""""""""""""""""""""""""""""""
+
+set laststatus=2 "always show status line
+
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
+""""""""""""""""""""""""""""""
+" Edit Mappings
+""""""""""""""""""""""""""""""
+
+" visual 0 goes to first non blank character
+map 0 ^ 
+
+" delete trailing whitespace on save
+func! DeleteTrailingWS()
+    exe "normal mz"
+    %s/\s\+$//ge
+    exe "normal `z"
+endfunc
+autocmd BufWrite *.py :call DeleteTrailingWS()
+autocmd BufWrite *.coffee :call DeleteTrailingWS()
+autocmd BufWrite *.js :call DeleteTrailingWS()
+autocmd BufWrite *.php :call DeleteTrailingWS()
+
+
+""""""""""""""""""""""""""""""
+" Helper Functions
+""""""""""""""""""""""""""""""
+
+" returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction
+
+
