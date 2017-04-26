@@ -2,7 +2,7 @@
 export ZSH=$HOME/.dotfiles
 
 # project folder that we can `c [tab]` to
-export PROJECTS=/apps/scigames/projects/
+export PROJECTS=/Users/jason.davis/projects/scigames/
 
 # Stash your environment variables in ~/.localrc.
 if [[ -a ~/.localrc ]]

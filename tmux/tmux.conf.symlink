@@ -1,6 +1,6 @@
 # use UTF8
-set -g utf8
-set-window-option -g utf8 on
+# set -g utf8
+# set-window-option -g utf8 on
 
 
 # 256 colors in tmux
@@ -28,7 +28,8 @@ set -s escape-time 0
 
 setw -g aggressive-resize on
 setw -g alternate-screen on
-setw -g automatic-rename on
+setw -g automatic-rename off
+setw -g allow-rename off
 setw -g mode-keys vi
 setw -g monitor-activity on
 setw -g xterm-keys on
@@ -62,7 +63,7 @@ bind r source-file ~/.tmux.conf
 # Status bar
 set -g status on
 set -g status-position bottom
-set -g status-utf8 on
+# set -g status-utf8 on
 set -g status-keys vi
 # set -g status-left-length 100
 set -g status-left-length 60
@@ -91,6 +92,7 @@ setw -g mode-keys vi
 
 # Copypasta
 unbind p
+
 # bind p paste-buffer
 bind-key -t vi-copy 'v' begin-selection
 bind-key -t vi-copy 'C-v' rectangle-toggle
