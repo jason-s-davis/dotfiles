@@ -1,0 +1,74 @@
+[alias]
+	# sha abbrev desc and history graph last 20 commits
+	ls = log --pretty --oneline --graph --abbrev-commit -n 20 
+
+	# sha abbrev desc and history graph all commits
+	lo = log --pretty --oneline --graph --abbrev-commit --all --decorate --color
+
+	lol = log --all --graph --decorate --oneline --abbrev-commit --simplify-by-decoration
+
+	l = log --graph --abbrev-commit --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+	# current working tree short format
+	s = status -s
+
+	# show all tags
+	tags = tag -l
+
+	# show all branches
+	ba = branch -a
+
+	# show all remotes
+	remotes = remote -v
+
+	# amend commit with last commit
+	amend = commit --amend --reuse-message=HEAD
+
+[status]
+	showUntrackedFiles = all
+
+[core]
+	excludesfile = /home/jason/.gitignore
+	editor = nvim
+	fileMode = true
+	ignorecase = false
+
+[color]
+
+	ui = auto
+
+[color "branch"]
+	
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+
+	meta = yellow bold
+	frag = magenta bold
+	old = red # deletions
+	new = green # additions
+
+[color "status"]
+
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[help]
+	# auto correct and execute mistyped commands
+	autocorrect = 1
+
+[merge]
+	# include merge commits summary in new merge commit message
+	log = true
+
+[push]
+
+	default = upstream
+
+[user]
+
+	name = Jason Davis
+	email = jason@notthatjason.com
